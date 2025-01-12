@@ -1,0 +1,38 @@
+name: 06 - k6 Load Test
+
+on:
+    workflow_dispatch:
+    workflow_call:
+
+jobs:
+  run-test:
+    name: Run k6 Load Test
+    runs-on: ubuntu-latest
+
+    steps:
+      # Clonar el repositorio
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Configurar k6
+      # Instalar k6 desde el repositorio oficial
+      - name: Install k6
+        run: | 
+          wget https://github.com/grafana/k6/releases/download/v0.43.0/k6-v0.43.0-linux-amd64.tar.gz
+          tar -xvzf k6-v0.43.0-linux-amd64.tar.gz
+          sudo mv k6-v0.43.0-linux-amd64/k6 /usr/local/bin/
+
+      # Ejecutar las pruebas de k6
+      - name: Run k6 Test
+        env:
+          K6_CLOUD_TOKEN: ${{ secrets.K6_CLOUD_TOKEN }} # Token para usar k6 Cloud (opcional)
+          GRAFANA_LOKI_URL: ${{ secrets.GRAFANA_LOKI_URL }} # URL de tu Loki (Grafana)
+        run: |
+          k6 run --out loki=$GRAFANA_LOKI_URL --tag test=load-test frontend/src/k6/proyecto.js
+
+      # Subir los resultados como artefacto
+      - name: Upload k6 Results
+        uses: actions/upload-artifact@v3
+        with:
+          name: k6-results
+          path: ./k6-results.json

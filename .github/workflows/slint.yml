@@ -1,0 +1,49 @@
+name: 07 - Lint React Code
+
+on:
+    workflow_dispatch:
+    workflow_call:
+
+jobs:
+  lint:
+    name: Lint Code with ESLint
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        project:
+          - frontend
+        node-version: [18.20.5]
+
+    steps:
+      # Paso 1: Clonar el repositorio
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Paso 2: Configurar Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }} # Asegúrate de usar la versión que necesita tu proyecto
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      # Paso 3: Instalar dependencias
+      - name: Install dependencies
+        working-directory: ${{ matrix.project }} # Asegúrate de usar el directorio correcto si tu código está dentro de `frontend`
+        run: npm ci
+
+      # Paso 4: Ejecutar ESLint
+      - name: Run ESLint
+        working-directory: ${{ matrix.project }}
+        run: npm run lint || true
+
+      # Paso 5: Reportar resultados (opcional)
+      #- name: Upload ESLint Report
+      # 
+      #  uses: actions/upload-artifact@v4
+      #  with:
+      #    name: eslint-report
+      #    path: frontend/eslint-report.html  # Cambia según donde ESLint guarde reportes (si aplica)
+

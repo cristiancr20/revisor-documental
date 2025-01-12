@@ -1,0 +1,58 @@
+name: 03 - Unit test Backend
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+    build:
+        permissions:
+            contents: read
+            issues: read
+            checks: write
+            pull-requests: write
+        runs-on: ubuntu-latest
+        
+        steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+    
+        # Backend steps
+        - name: Set up Node.js 18.20.4
+          uses: actions/setup-node@v4
+          with:
+            node-version: 18.20.4
+            cache: 'npm'
+            cache-dependency-path: backend/package-lock.json
+    
+        - name: Install backend dependencies
+          working-directory: backend
+          run: npm ci
+    
+         # Establece las variables de entorno para GitHub Actions
+        - name: Set environment variables
+          run: 
+            echo "DATABASE_FILENAME=./data.db" >> $GITHUB_ENV
+            echo "JWT_SECRET=wTFwYYoXICYxCameL+fgyw==" >> $GITHUB_ENV
+       
+        # Ejecuta las pruebas backend
+        - name: Run backend tests
+          working-directory: backend
+          run: npm test -- --coverage
+          env:
+            DATABASE_FILENAME: ./data.db  
+            JWT_SECRET: wTFwYYoXICYxCameL+fgyw==
+
+        - name: Upload backend coverage report
+          uses: actions/upload-artifact@v4
+          with:
+            name: Coverage-Report
+            path: backend/coverage
+
+        - name: Publish Test Results
+          uses: EnricoMi/publish-unit-test-result-action@v2
+          if: always()
+          with:
+           files: |
+             backend/**/*.json
+    
