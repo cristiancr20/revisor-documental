@@ -1,5 +1,5 @@
 //definir process
-export const API_URL = process.env?.REACT_APP_API_URL || "https://revisor-documental-production.up.railway.app";
+export const API_URL = process.env.REACT_APP_API_URL || "https://revisor-documental-production.up.railway.app";
 
 export const WORKER_URL = process.env?.REACT_APP_WORKER_URL;
 
