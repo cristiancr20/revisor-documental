@@ -18,27 +18,27 @@ export let options = {
                 { duration: '1m', target: 0 },  // Baja a 0 usuarios en 1 minuto
             ],
         },
-        /*  getRequests: {
-             executor: 'constant-vus',
-             exec: 'getScenario',
-             vus: 10,
-             duration: '1m',
-             startTime: '1m',
-         },
-         postRequests: {
-             executor: 'constant-vus',
-             exec: 'postScenario',
-             vus: 10,
-             duration: '1m',
-             startTime: '2m',
-         },
-         putRequests: {
-             executor: 'constant-vus',
-             exec: 'putScenario',
-             vus: 10,
-             duration: '1m',
-             startTime: '3m',
-         }, */
+        getRequests: {
+            executor: 'constant-vus',
+            exec: 'getScenario',
+            vus: 10,
+            duration: '1m',
+            startTime: '1m',
+        },
+        postRequests: {
+            executor: 'constant-vus',
+            exec: 'postScenario',
+            vus: 10,
+            duration: '1m',
+            startTime: '2m',
+        },
+        putRequests: {
+            executor: 'constant-vus',
+            exec: 'putScenario',
+            vus: 10,
+            duration: '1m',
+            startTime: '3m',
+        },
     },
     thresholds: {
         http_req_duration: ['p(95)<500'], // 95% de las solicitudes < 500ms
@@ -47,7 +47,7 @@ export let options = {
     },
 };
 
-const BASE_URL = 'http://localhost:1337'; // Cambiar por tu URL ngrok o servidor desplegado
+const BASE_URL = 'https://revisor-documental-production.up.railway.app/'; // Cambiar por tu URL ngrok o servidor desplegado
 
 export function loginScenario() {
     const loginPayload = JSON.stringify({
@@ -72,7 +72,7 @@ export function loginScenario() {
     return loginRes.json().jwt;
 }
 
-/* export function getScenario() {
+export function getScenario() {
     const getEndpoints = [
         { name: 'List Projects', url: `${BASE_URL}/api/projects` },
         { name: 'List Documents', url: `${BASE_URL}/api/documents` },
@@ -94,9 +94,9 @@ export function loginScenario() {
 
         sleep(1);
     });
-} */
+}
 
-/* export function postScenario() {
+export function postScenario() {
     const token = loginScenario();
     const AUTH_TOKEN = `Bearer ${token}`;
 
@@ -164,9 +164,9 @@ export function loginScenario() {
 
         sleep(1);
     });
-} */
+}
 
-/* export function putScenario() {
+export function putScenario() {
     const token = loginScenario();
     const AUTH_TOKEN = `Bearer ${token}`;
 
@@ -232,4 +232,3 @@ export function loginScenario() {
         sleep(1);
     });
 }
- */
