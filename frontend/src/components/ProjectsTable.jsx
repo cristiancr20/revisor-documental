@@ -16,7 +16,7 @@ import { decryptData } from "../utils/encryption.js";
 import Header from "../components/Header";
 
 const DocumentoViewer = () => {
-  const { documentId } = useParams();
+  const { projectId, documentId } = useParams();
   const [document, setDocument] = useState(null);
   const [error, setError] = useState(null);
   const [comments, setComments] = useState([]);
@@ -40,12 +40,12 @@ const DocumentoViewer = () => {
 
   useEffect(() => {
     fetchDocument();
-/*     fetchComments(); */
-  }, [documentId]);
+    fetchComments();
+  }, [projectId]);
 
   const fetchDocument = async () => {
     try {
-      const data = await getDocumentById(documentId);
+      const data = await getDocumentById(projectId);
       setDocument(data);
     } catch (error) {
       setError("Error fetching document details");
