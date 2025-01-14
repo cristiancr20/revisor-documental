@@ -24,14 +24,7 @@ module.exports = [
       maxAge: 3600,
     },
   },
-  {
-    name: '@strapi/plugin-users-permissions::rateLimit',
-    config: {
-      interval: 60000, // 1 minuto en milisegundos
-      max: 200, // Permite hasta 200 solicitudes por IP en 1 minuto
-      message: 'Too many requests, please try again later.',
-    },
-  },
+
   'strapi::poweredBy',
   'strapi::query',
   'strapi::body',
