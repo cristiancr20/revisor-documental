@@ -40,7 +40,7 @@ const DocumentoViewer = () => {
 
   useEffect(() => {
     fetchDocument();
-    fetchComments();
+/*     fetchComments(); */
   }, [documentId]);
 
   const fetchDocument = async () => {
