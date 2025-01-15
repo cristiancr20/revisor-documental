@@ -10,10 +10,16 @@ const successfulLogins = new Counter('successful_logins');
 const failedLogins = new Counter('failed_logins');
 
 // Simulated user data with rols
-const users = new SharedArray('users', function() {
+const users = new SharedArray('users', function () {
     return [
-        { email: 'cristian.capa20@gmail.com', password: 'Capitacr20', rol: 'estudiante' },
-        { email: 'juan.f.castillo.e1@unl.edu.ec', password: 'admin1234', rol: 'tutor' },
+        {
+            email: 'cristian.capa20@gmail.com',
+            password: 'capa1234', rol: 'estudiante'
+        },
+        {
+            email: 'juan.f.castillo.e1@unl.edu.ec',
+            password: 'admin1234', rol: 'tutor'
+        },
     ];
 });
 
@@ -137,7 +143,7 @@ export function loginScenario() {
 }
 
 export function getScenario() {
-    group('Get Requests', function() {
+    group('Get Requests', function () {
         const getEndpoints = [
             { name: 'List Projects', url: `${BASE_URL}/api/projects` },
             { name: 'List Documents', url: `${BASE_URL}/api/documents` },
@@ -164,7 +170,7 @@ export function getScenario() {
 
 export function postScenario() {
     const { token, rol } = loginScenario(); // Get a fresh token and rol for each VU
-    group('Post Requests', function() {
+    group('Post Requests', function () {
         const AUTH_TOKEN = `Bearer ${token}`;
 
         let postEndpoints = [];
@@ -259,7 +265,7 @@ export function postScenario() {
 
 export function putScenario(data) {
     const { token, rol } = loginScenario(); // Get a fresh token and rol for each VU
-    group('Put Requests', function() {
+    group('Put Requests', function () {
         const AUTH_TOKEN = `Bearer ${token}`;
 
         let putEndpoints = [];
