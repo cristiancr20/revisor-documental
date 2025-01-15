@@ -111,6 +111,16 @@ export function setup() {
                             },
                         },
                     },
+                    {
+                        name:"Create Notification",
+                        url:"/api/notifications",
+                        payload:{
+                            data:{
+                                message:"Test notification",
+                                isRead:false
+                            }
+                        }
+                    }
                 ],
                 tutor: [
                     {
